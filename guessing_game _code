@@ -1,0 +1,38 @@
+//guessing game
+use std::io;
+use rand::prelude::*;
+
+fn main() {
+    let guessing_list=["grapes","banana", "mango","orange"];
+    let mut rng= thread_rng();
+    let index = rng.gen_range(0..guessing_list.len());
+    let  random_fruit = guessing_list[index];
+    println!(" Guessmango a random fruit name :");
+        loop {
+            let mut input: String = String::new();
+            match io::stdin().read_line(&mut input) {
+                Ok(_) => {
+                    let fruit_selected: String = input.trim().to_lowercase();
+                    println!("fruit selected:{}", fruit_selected);
+
+                    if !guessing_list.contains(&fruit_selected.as_str()) {
+                        println!("Fruit entered does not exist");
+                        continue;
+                    }
+                    if guess_checker(random_fruit, &fruit_selected) {
+                        println!("you are a hero");
+                        break;
+                    } else {
+                        println!("retry");
+                    }
+                }
+                Err(error) => {
+                    println!("error: {}", error);
+                }
+            }
+        }
+    }
+
+fn guess_checker(fruit: &str, fruit_selected: &str) -> bool {
+    return fruit == fruit_selected;
+}
